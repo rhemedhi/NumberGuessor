@@ -4,7 +4,7 @@ const playGame = () => {
   let target;
   let humanScore = 0;
   let computerScore = 0;
-  let currentRoundNumber = 1;
+  // let currentRoundNumber = 1;
 
   const humanGuessInput = document.getElementById('human-guess');
   const roundNumberDisplay = document.getElementById('round-number');
@@ -15,7 +15,10 @@ const playGame = () => {
   const computerWinsDisplay = document.getElementById('computer-wins');
   const guessButton = document.getElementById('guess');
   const nextRoundButton = document.getElementById('next-round');
+  const restartGame = document.querySelector('.resetgame');
+  
 
+  
   guessButton.addEventListener('click', () => {
     const currentHumanGuess = humanGuessInput.value;
     const computerGuess = Math.floor(Math.random() * 10);
@@ -27,22 +30,32 @@ const playGame = () => {
     guessButton.setAttribute('disabled', true);
     nextRoundButton.removeAttribute('disabled');
 
-    if (Math.abs(target - currentHumanGuess) < Math.abs(target - computerGuess)) {
+    const increaseHumanScore = () => {
       guessButton.textContent = 'You Win';
       guessButton.style.color = 'green';
       humanScore++;
-    } else if (Math.abs(target - computerGuess) < Math.abs(target - currentHumanGuess)) {
+    };
+    const increaseComputerScore = () => {
       computerWinsDisplay.textContent = 'Computer Wins';
       computerWinsDisplay.style.color = 'red';
       computerScore++;
-    } else if (Math.abs(target - currentHumanGuess) === Math.abs(target - computerGuess)) {
-      guessButton.textContent = 'You Win';
-      guessButton.style.color = 'green';
-      humanScore++;
+    };
+
+    if (
+      Math.abs(target - currentHumanGuess) < Math.abs(target - computerGuess)
+    ) {
+      increaseHumanScore();
+    } else if (
+      Math.abs(target - computerGuess) < Math.abs(target - currentHumanGuess)
+    ) {
+      increaseComputerScore();
+    } else if (
+      Math.abs(target - currentHumanGuess) === Math.abs(target - computerGuess)
+    ) {
+      increaseHumanScore();
     }
 
-    if (!humanGuessInput.value) {
-      window.alert('type in a value in your input box to make a guess.');
+    const followRules = () => {
       targetNumberDisplay.textContent = '?';
       humanGuessInput.value = '';
       computerWinsDisplay.textContent = '';
@@ -55,6 +68,36 @@ const playGame = () => {
 
       computerScore = computerScoreDisplay.textContent;
       humanScore = humanScoreDisplay.textContent;
+    };
+    if (!humanGuessInput.value) {
+      window.alert('type in a value in your input box to make a guess.');
+      followRules();
+    } else if (humanGuessInput.value > 9) {
+      window.alert('Your number is greater than 9, input a number from 0 to 9');
+      followRules();
+    } else if (humanGuessInput.value < 0) {
+      window.alert('Your number is less than 0, input a number from 0 to 9');
+      followRules();
+    }
+
+    const headerName = document.querySelector('.headerName');
+    const divHuman = document.querySelector('.human-guess');
+    const divComputer = document.querySelector('.computer-guess');
+
+    const manichanges = () => {
+      headerName.style.backgroundColor = 'rgb(0, 0, 0, 0.5)';
+      nextRoundButton.style.display = 'none';
+      restartGame.style.display = 'block';
+    };
+
+    if (humanScore === 10) {
+      headerName.textContent = 'You won the game play!!';
+      divHuman.style.backgroundColor = 'rgb(0, 0, 0, 0.5)';
+      manichanges();
+    } else if (computerScore === 10) {
+      headerName.textContent = 'Computer Won the game play!!';
+      divComputer.style.backgroundColor = 'rgb(0, 0, 0, 0.5)';
+      manichanges();
     }
 
     humanScoreDisplay.textContent = humanScore;
@@ -68,8 +111,8 @@ const playGame = () => {
     substructButton.setAttribute('disabled', true);
     addButton.removeAttribute('disabled');
 
-    currentRoundNumber++;
-    roundNumberDisplay.textContent = currentRoundNumber;
+    // currentRoundNumber++;
+    // roundNumberDisplay.textContent = currentRoundNumber;
 
     targetNumberDisplay.textContent = '?';
     humanGuessInput.value = '';
@@ -98,6 +141,10 @@ const playGame = () => {
     } else if (humanGuessInput.value > 1) {
       addButton.removeAttribute('disabled');
     }
+  });
+
+  restartGame.addEventListener('click', () => {
+    window.location.reload();
   });
 };
 playGame();

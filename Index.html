@@ -13,12 +13,12 @@
     <div class="game-container">
       <!-- Number Guesser Section -->
       <header>
-        <h1>Number Guesser!</h1>
+        <h1 class="headerName">Number Guesser!</h1>
       </header>
       <!-- Round section  -->
       <div class="rounds">
         <p class="round-label">Round <span id="round-number">1</span></p>
-        <p class="guess-label">
+        <p class="guess-label targetSide">
           Target Number: <span id="target-number">?</span>
         </p>
       </div>
@@ -45,6 +45,10 @@
             <button class="number-control right" id="add">+</button>
           </div>
           <button class="button" id="guess">Make a Guess</button>
+        </div>
+
+        <div class="restartgame">
+          <button class="resetgame">restart</button>
         </div>
       </div>
       <!-- Next round section  -->
